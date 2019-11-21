@@ -17,7 +17,7 @@
         <!-- osx support -->
         <Otherwise> 
             <PropertyGroup>
-                <OSInstallRoot>/Application</OSInstallRoot>
+                <OSInstallRoot>/Applications</OSInstallRoot>
                 <UnityManagedPath Condition="'$(UnityManagedPath)'==''">Unity.app\Contents\Managed</UnityManagedPath>
                 <UnityExtensionsPath Condition="'$(UnityExtensionsPath)'==''">Unity.app\Contents\UnityExtensions\Unity</UnityExtensionsPath>
             </PropertyGroup>
