@@ -1,30 +1,44 @@
 <Project>
 
-  <!-- Conditional compile symbols -->
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>UNITY_ASSERTIONS</DefineConstants>
-  </PropertyGroup>
+    <!-- Conditional compile symbols -->
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DefineConstants>UNITY_ASSERTIONS</DefineConstants>
+    </PropertyGroup>
 
-  <!-- Set default Unity folder paths -->
-  <PropertyGroup>
-    <OSInstallRoot Condition="$([MSBuild]::IsOsPlatform(Windows))">C:\Program Files</OSInstallRoot>
-    <OSInstallRoot Condition="!$([MSBuild]::IsOsPlatform(Windows))">/Application</OSInstallRoot>
-    <UnityInstallRoot Condition="'$(UnityInstallPath)'==''">$(OSInstallRoot)\Unity\Hub\Editor</UnityInstallRoot>
-    <UnityManagedPath Condition="'$(UnityManagedPath)'==''">Editor\Data\Managed</UnityManagedPath>
-    <UnityExtensionsPath Condition="'$(UnityExtensionsPath)'==''">Editor\Data\UnityExtensions\Unity</UnityExtensionsPath>
-  </PropertyGroup>
+    <!-- Set default Unity folder paths -->
+    <PropertyGroup>
+        <UnityInstallRoot Condition="'$(UnityInstallPath)'==''">$(OSInstallRoot)\Unity\Hub\Editor</UnityInstallRoot>
+    </PropertyGroup>
+    <Choose>
+        <When Condition="$([MSBuild]::IsOsPlatform(Windows))">
+            <PropertyGroup>
+                <OSInstallRoot>C:\Program Files</OSInstallRoot>
+                <UnityManagedPath Condition="'$(UnityManagedPath)'==''">Editor\Data\Managed</UnityManagedPath>
+                <UnityExtensionsPath Condition="'$(UnityExtensionsPath)'==''">Editor\Data\UnityExtensions\Unity</UnityExtensionsPath>
+            </PropertyGroup>
+        </When>
+        <!-- osx support -->
+        <Otherwise> 
+            <PropertyGroup>
+                <OSInstallRoot>/Application</OSInstallRoot>
+                <UnityManagedPath Condition="'$(UnityManagedPath)'==''">Unity.app\Contents\Managed</UnityManagedPath>
+                <UnityExtensionsPath Condition="'$(UnityExtensionsPath)'==''">Unity.app\Contents\UnityExtensions\Unity</UnityExtensionsPath>
+            </PropertyGroup>
+        </Otherwise>
+        
+    </Choose>
 
-  <!-- Set relative paths of specific Unity assemblies -->
-  <PropertyGroup>
-    <UnityEnginePath Condition="'$(UnityEnginePath)'==''">$(UnityManagedPath)\UnityEngine.dll</UnityEnginePath>
-    <UnityEditorPath Condition="'$(UnityEditorPath)'==''">$(UnityManagedPath)\UnityEditor.dll</UnityEditorPath>
-    <UnityEngineUIPath Condition="'$(UnityEngineUIPath)'==''">$(UnityExtensionsPath)\GUISystem\UnityEngine.UI.dll</UnityEngineUIPath>
-    <UnityEngineTestRunnerPath Condition="'$(UnityEngineTestRunnerPath)'==''">$(UnityExtensionsPath)\TestRunner\UnityEngine.TestRunner.dll</UnityEngineTestRunnerPath>
-  </PropertyGroup>
+    <!-- Set relative paths of specific Unity assemblies -->
+    <PropertyGroup>
+        <UnityEnginePath Condition="'$(UnityEnginePath)'==''">$(UnityManagedPath)\UnityEngine.dll</UnityEnginePath>
+        <UnityEditorPath Condition="'$(UnityEditorPath)'==''">$(UnityManagedPath)\UnityEditor.dll</UnityEditorPath>
+        <UnityEngineUIPath Condition="'$(UnityEngineUIPath)'==''">$(UnityExtensionsPath)\GUISystem\UnityEngine.UI.dll</UnityEngineUIPath>
+        <UnityEngineTestRunnerPath Condition="'$(UnityEngineTestRunnerPath)'==''">$(UnityExtensionsPath)\TestRunner\UnityEngine.TestRunner.dll</UnityEngineTestRunnerPath>
+    </PropertyGroup>
 
-  <!-- Add default Unity references -->
-  <ItemGroup>
-    <Reference Include="$(UnityInstallRoot)\$(UnityVersion)\$(UnityEnginePath)" Private="false" />
-  </ItemGroup>
+    <!-- Add default Unity references -->
+    <ItemGroup>
+        <Reference Include="$(UnityInstallRoot)\$(UnityVersion)\$(UnityEnginePath)" Private="false"/>
+    </ItemGroup>
 
 </Project>
