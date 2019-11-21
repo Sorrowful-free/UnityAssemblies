@@ -6,9 +6,6 @@
     </PropertyGroup>
 
     <!-- Set default Unity folder paths -->
-    <PropertyGroup>
-        <UnityInstallRoot Condition="'$(UnityInstallPath)'==''">$(OSInstallRoot)\Unity\Hub\Editor</UnityInstallRoot>
-    </PropertyGroup>
     <Choose>
         <When Condition="$([MSBuild]::IsOsPlatform(Windows))">
             <PropertyGroup>
@@ -25,8 +22,11 @@
                 <UnityExtensionsPath Condition="'$(UnityExtensionsPath)'==''">Unity.app\Contents\UnityExtensions\Unity</UnityExtensionsPath>
             </PropertyGroup>
         </Otherwise>
-        
     </Choose>
+
+    <PropertyGroup>
+        <UnityInstallRoot Condition="'$(UnityInstallPath)'==''">$(OSInstallRoot)\Unity\Hub\Editor</UnityInstallRoot>
+    </PropertyGroup>
 
     <!-- Set relative paths of specific Unity assemblies -->
     <PropertyGroup>
